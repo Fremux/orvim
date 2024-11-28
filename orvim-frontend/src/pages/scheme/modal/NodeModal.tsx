@@ -46,9 +46,10 @@ const NodeModal = ({ isOpen, onClose, node, onSave }: NodeModalProps) => {
       [key]: value,
     }))
   }
-
   const renderFields = () => {
-    switch (node.label) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    switch (node.label || node.data.label) {
       case 'pdf_parser':
         return (
           <FormField
@@ -287,7 +288,7 @@ const NodeModal = ({ isOpen, onClose, node, onSave }: NodeModalProps) => {
               onChange={(value) =>
                 handleChange(
                   'chunk_size' as keyof typeof data,
-                  typeof value !== 'object' ? parseInt(String(value), 10) : 0
+                  typeof value !== 'object' ? parseInt(String(value), 10) : 500
                 )
               }
             />
@@ -297,7 +298,7 @@ const NodeModal = ({ isOpen, onClose, node, onSave }: NodeModalProps) => {
               onChange={(value) =>
                 handleChange(
                   'chunk_overlap' as keyof typeof data,
-                  typeof value !== 'object' ? parseInt(String(value), 10) : 0
+                  typeof value !== 'object' ? parseInt(String(value), 10) : 50
                 )
               }
             />

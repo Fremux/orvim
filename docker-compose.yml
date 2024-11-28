@@ -13,14 +13,14 @@ services:
 
   restapi:
       image: base-backend
-      build: backend
+      build: orvim-backend
       restart: always
       depends_on:
         - db
       env_file:
         - .env
       ports:
-        - "8000:8000"
+        - "28080:8000"
       entrypoint: ["python3", "main.py"]
       networks:
         - orvim
