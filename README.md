@@ -66,28 +66,4 @@ docker compose -f docker-compose.cpu.yaml up -d --build
 docker compose -f docker-compose.gpu.yaml up -d --build
 ```
 
-flowchart LR
-    U["Пользователь"] -->|HTTP| FE["Frontend: React + TypeScript"]
-    FE -->|HTTP/REST| NG["Nginx"]
-    NG -->|/api/v1| BE["Base Backend: FastAPI"]
-
-    BE -->|SQL| PG[("PostgreSQL")]
-    BE -->|S3 API| S3[("MinIO/S3")]
-    BE -->|HTTP API| CH[("ChromaDB")]
-    BE -->|AMQP: ConnectTask| RMQ[("RabbitMQ")]
-
-    RMQ -->|queue: connect| CONN["Connector service"]
-    CONN -->|читает файлы| S3
-    CONN -->|ConnectionLog| PG
-    CONN -->|AMQP: TransformTask| RMQ
-
-    RMQ -->|queue: transform| TR["Transformer service"]
-    TR -->|чанки и embeddings| CH
-    TR -->|TransformLog| PG
-    TR -->|модельные API| ML["Embeddings / OCR / Captioning"]
-
-    BE -->|retrieval| CH
-    BE -->|prompt + context| LLM["LLM QA: OpenAI / GigaChat / Cohere"]
-    LLM -->|answer + sources| BE
-<img width="484" height="663" alt="image" src="https://github.com/user-attachments/assets/02d98ce4-2d31-4592-a23a-852724254a17" />
 
